@@ -1,15 +1,15 @@
 from fastapi import FastAPI, Request
 from fastapi.exceptions import HTTPException
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from slowapi.errors import RateLimitExceeded
+from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
-from modules.minecraft_server import StatusServer
-from modules.telegram_parser import TelegramParser
-from modules.easydonate import EasyDonate
-from modules.recaptcha import ReCaptcha
 
+from modules.easydonate import EasyDonate
+from modules.minecraft_server import StatusServer
+from modules.recaptcha import ReCaptcha
+from modules.telegram_parser import TelegramParser
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI()

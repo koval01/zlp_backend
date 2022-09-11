@@ -1,5 +1,6 @@
-import aiohttp
 import os
+
+import aiohttp
 
 
 class ReCaptcha:

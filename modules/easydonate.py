@@ -1,6 +1,6 @@
-import aiohttp
 import os
 
+import aiohttp
 from pydantic import BaseModel
 
 
