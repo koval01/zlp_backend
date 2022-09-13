@@ -6,6 +6,4 @@ COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY ./app /code/app
-
-CMD ["uvicorn", "app.main:app", "--workers", "8", "--host", "0.0.0.0", "--port", "5000", "--proxy-headers"]
+CMD ["uvicorn", "main:app", "--workers", "8", "--host", "0.0.0.0", "--port", "5000", "--proxy-headers"]
