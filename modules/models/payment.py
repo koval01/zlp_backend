@@ -21,10 +21,10 @@ class Product(BaseModel):
     description: Any
     image: str
     first_delete: int
-    shop_id: int
+    shop_id: int = None
     created_at: str
     updated_at: str
-    sort_index: int
+    sort_index: int = None
 
 
 class Server(BaseModel):
@@ -41,7 +41,7 @@ class Server(BaseModel):
     updated_at: str
 
 
-class Response(BaseModel):
+class ResponseItem(BaseModel):
     id: int
     customer: str
     email: Any
@@ -61,4 +61,4 @@ class Response(BaseModel):
 
 class Model(BaseModel):
     success: bool
-    response: Response
+    response: ResponseItem
