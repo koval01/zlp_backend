@@ -38,7 +38,8 @@ async def channel(request: Request, choice: int = 0, offset: int = None) -> JSON
 
 @app.post("/donate/services")
 @limiter.limit("20/minute")
-async def donate_services(request: Request, item: EasyDonate.Models.Services) -> JSONResponse or HTTPException:
+async def donate_services(request: Request, item: EasyDonate.Models.Services) \
+        -> JSONResponse or HTTPException:
     if await ReCaptcha().check(item.token):
         return JSONResponse({"services": await EasyDonate.Services().get()})
     raise HTTPException(403, "ReCaptcha check error")
@@ -46,12 +47,18 @@ async def donate_services(request: Request, item: EasyDonate.Models.Services) ->
 
 @app.post("/donate/coupon")
 @limiter.limit("20/minute")
-async def donate_services(request: Request, item: EasyDonate.Models.Coupon) -> JSONResponse or HTTPException:
+async def donate_coupon(request: Request, item: EasyDonate.Models.Coupon) \
+        -> JSONResponse or HTTPException:
     if await ReCaptcha().check(item.token):
-        return JSONResponse({"coupon": await EasyDonate().coupon_check(item.code)})
+        return JSONResponse({"coupon": await EasyDonate.Coupon().get(item.code)})
     raise HTTPException(403, "ReCaptcha check error")
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@app.post("/donate/payment_get")
+@limiter.limit("20/minute")
+async def donate_payment(request: Request, item: EasyDonate.Models.Payment) \
+        -> JSONResponse or HTTPException:
+    if await ReCaptcha().check(item.token):
+        return JSONResponse({"payment": await EasyDonate.Payment().get(item.payment_id, item.tokens_send)})
+    raise HTTPException(403, "ReCaptcha check error")
+
