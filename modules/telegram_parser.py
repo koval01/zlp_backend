@@ -10,9 +10,9 @@ class TelegramParser:
         choice_ = ['zalupa_history', 'zalupaonline']
         self.host = f"https://t.me/s/{choice_[choice]}?before={offset}"
         self.headers = {
-            "Origin": "https://t.me/",
-            "Referer": f"https://t.me/s/{choice_[choice]}",
-            "Host": "t.me"
+            "Host":    "t.me",
+            "Origin":  "https://t.me/",
+            "Referer": "https://t.me/s/%s" % choice_[choice],
         }
 
     async def _request(self) -> str or None:
@@ -76,7 +76,7 @@ class TelegramParser:
                 )["datetime"],
 
                 "link": "https://t.me/s/" + re.search(
-                    r"(https://t.me/)([A-z\d_\-]*?/[\d]*$)",
+                    r"(https://t.me/)([A-z\d_\-]*?/\d*$)",
                     finder(
                         m, "tgme_widget_message_date", tag="a"
                     )["href"])[2]

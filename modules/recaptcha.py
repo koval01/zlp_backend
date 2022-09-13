@@ -1,6 +1,12 @@
 import os
+from dotenv import load_dotenv
+
 
 import aiohttp
+
+from modules.models import recaptcha
+
+load_dotenv()
 
 
 class ReCaptcha:
@@ -21,4 +27,5 @@ class ReCaptcha:
             "secret": self.key,
             "response": token
         })
-        return json["success"] if json else False
+        data = recaptcha.Model(**json)
+        return data.success if data else False
