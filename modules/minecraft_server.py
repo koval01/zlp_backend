@@ -6,15 +6,19 @@ from logger import log
 class StatusServer:
 
     def __init__(self, host: str = "zalupa.online:25565") -> None:
-        self.server = JavaServer.lookup(host)
+        self.host = host
 
-    def status(self) -> PingResponse or None:
+    async def server(self) -> JavaServer:
+        return await JavaServer.async_lookup(self.host)
+
+    async def status(self) -> PingResponse or None:
         try:
-            return self.server.status()
+            s = await self.server()
+            return await s.async_status()
         except Exception as e:
             log.warning("Failed to get game server status. Exception: %s" % e)
 
-    def online(self) -> dict:
-        status = self.status()
+    async def online(self) -> dict:
+        status = await self.status()
         return {"online": status.players.online} \
             if status else {}
