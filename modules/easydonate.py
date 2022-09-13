@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 
 import aiohttp
 from pydantic import BaseModel
@@ -12,6 +13,8 @@ from modules.models.services import ResponseItem as ResponseItemServices
 
 from modules.models import payment as payment_model
 from modules.models.payment import ResponseItem as ResponseItemPayment
+
+load_dotenv()
 
 
 class EasyDonate:

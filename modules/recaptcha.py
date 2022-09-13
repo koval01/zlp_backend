@@ -1,8 +1,12 @@
 import os
+from dotenv import load_dotenv
+
 
 import aiohttp
 
 from modules.models import recaptcha
+
+load_dotenv()
 
 
 class ReCaptcha:

@@ -13,6 +13,7 @@ starlette = "*"
 beautifulsoup4 = "*"
 pydantic = "*"
 slowapi = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
