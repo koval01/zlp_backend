@@ -14,7 +14,6 @@ beautifulsoup4 = "*"
 pydantic = "*"
 slowapi = "*"
 python-dotenv = "*"
-fastapi-redis-cache = "*"
 
 [dev-packages]
 
