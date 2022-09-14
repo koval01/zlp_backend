@@ -1,5 +1,6 @@
 from mcstatus import JavaServer
 from mcstatus.pinger import PingResponse
+
 from logger import log
 
 

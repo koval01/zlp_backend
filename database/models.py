@@ -1,9 +1,9 @@
 from typing import Any
 
 from sqlalchemy import Column, Integer, String, BigInteger
-from sqlalchemy.types import DateTime
-from sqlalchemy.sql import func
 from sqlalchemy.dialects import mysql
+from sqlalchemy.sql import func
+from sqlalchemy.types import DateTime
 
 from database.controller import Base
 

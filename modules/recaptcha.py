@@ -1,8 +1,7 @@
 import os
-from dotenv import load_dotenv
-
 
 import aiohttp
+from dotenv import load_dotenv
 
 from modules.models import recaptcha
 

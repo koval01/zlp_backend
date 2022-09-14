@@ -1,22 +1,19 @@
+import json
 import os
-from dotenv import load_dotenv
+from typing import Dict
 
 import aiohttp
-import json
+from dotenv import load_dotenv
 from pydantic import BaseModel
-from typing import Dict
-from modules.special import StringEditor
-
-from modules.models import coupon as coupon_model
-from modules.models.coupon import ResponseItem as ResponseItemCoupon
-
-from modules.models import services as services_model
-from modules.models.services import ResponseItem as ResponseItemServices
-
-from modules.models import payment as payment_model
-from modules.models.payment import ResponseItem as ResponseItemPayment
 
 from modules.models import bill as bill_model
+from modules.models import coupon as coupon_model
+from modules.models import payment as payment_model
+from modules.models import services as services_model
+from modules.models.coupon import ResponseItem as ResponseItemCoupon
+from modules.models.payment import ResponseItem as ResponseItemPayment
+from modules.models.services import ResponseItem as ResponseItemServices
+from modules.special import StringEditor
 
 load_dotenv()
 
@@ -50,7 +47,9 @@ class EasyDonate:
     @staticmethod
     async def request(headers: dict, path: str, params: dict = None) -> dict:
         async with aiohttp.ClientSession() as session:
-            async with session.get(f"{EasyDonate.host}/{path}", headers=headers, params=params) as resp:
+            async with session.get(
+                    f"{EasyDonate.host}/{path}", headers=headers, params=params
+            ) as resp:
                 if resp.status < 400:
                     body = await resp.json()
                     return body
