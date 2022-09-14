@@ -2,7 +2,9 @@ import os
 from dotenv import load_dotenv
 
 import aiohttp
+import json
 from pydantic import BaseModel
+from typing import Dict
 from modules.special import StringEditor
 
 from modules.models import coupon as coupon_model
@@ -14,11 +16,12 @@ from modules.models.services import ResponseItem as ResponseItemServices
 from modules.models import payment as payment_model
 from modules.models.payment import ResponseItem as ResponseItemPayment
 
+from modules.models import bill as bill_model
+
 load_dotenv()
 
 
 class EasyDonate:
-
     host = "https://easydonate.ru/api/v3"
     api_key = os.getenv("SECRET_KEY_DONATE")
 
@@ -35,6 +38,14 @@ class EasyDonate:
             payment_id: int
             token: str
             tokens_send: bool
+
+        class Bill(BaseModel):
+            customer: str
+            coupon: str = None
+            email: str = None
+            products: Dict[int, int]
+            success_url: str
+            token: str
 
     @staticmethod
     async def request(headers: dict, path: str, params: dict = None) -> dict:
@@ -145,3 +156,29 @@ class EasyDonate:
             return self._builder(data.response, coins_mode=coins_mode) \
                 if data.success else {}
 
+    class Bill:
+
+        @staticmethod
+        async def _request(params: dict) -> dict:
+            response = await EasyDonate.request({
+                "Shop-Key": EasyDonate.api_key
+            }, f"shop/payment/create", params=params)
+
+            return response
+
+        async def send(self, success_url: str, products: dict, customer: str, email: str = "", coupon: str = "") \
+                -> dict:
+            response = await self._request({
+                "customer": customer,
+                "server_id": os.getenv("SERVER_ID"),
+                "products": json.dumps(products),
+                "email": email,
+                "coupon": coupon,
+                "success_url": success_url
+            })
+            data = bill_model.Model(**response)
+
+            return {
+                "url": data.response.url,
+                "bill_id": data.response.payment.id
+            } if data.success else {}
