@@ -76,7 +76,7 @@ class TelegramParser:
                 )["datetime"],
 
                 "link": "https://t.me/s/" + re.search(
-                    r"(https://t.me/)([A-z\d_\-]*?/\d*$)",
+                    r"(https://t.me/)([\dA-z_\-]*?/\d*$)",
                     finder(
                         m, "tgme_widget_message_date", tag="a"
                     )["href"])[2]
