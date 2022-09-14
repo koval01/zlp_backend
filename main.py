@@ -27,7 +27,7 @@ app.add_middleware(
 @app.get("/server")
 @limiter.limit("30/minute")
 async def server(request: Request) -> JSONResponse:
-    return JSONResponse({"body": StatusServer().online()})
+    return JSONResponse({"body": await StatusServer().online()})
 
 
 @app.get("/channel_parse")
